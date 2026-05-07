@@ -249,7 +249,6 @@ Aquest projecte contribueix als Objectius de Desenvolupament Sostenible:
 * Victoria Fernández
 * Isaac Dominguez
 
-Projecte desenvolupat per al CFGS ASIX — Projecte Lliure.
 
 ---
 
