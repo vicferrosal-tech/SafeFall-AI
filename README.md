@@ -119,7 +119,7 @@ Enviament instantani de notificacions a l’aplicació mòbil via MQTT.
 
 ---
 
-#  Seguretat implementada
+#  Seguretat  implementada
 
 * HTTPS amb SSL/TLS
 * Xifrat de contrasenyes
