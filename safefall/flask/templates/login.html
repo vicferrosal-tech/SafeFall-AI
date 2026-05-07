@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estils.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <h1 class="page-title">Iniciar sessió</h1>
+            <!--DiV-->
+        </div>
+
+            {% with messages = get_flashed_messages(category_filter=["info"]) %}
+                {% if messages %}
+                    {% for msg in messages %}
+                    <p class="info">{{ msg }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% with messages = get_flashed_messages(category_filter=["danger"]) %}
+                {% if messages %}
+                    {% for msg in messages %}
+                    <p class="danger">{{ msg }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST" class="formulari">
+            <label class="etiqueta">Usuari:</label><br>
+            <input type="text" name="username" required class="inputs" placeholder="Usuari"><br><br>
+
+            <label class="etiqueta">Contrasenya:</label><br>
+            <input type="password" name="password" required class="inputs" placeholder="Contrasenya"><br><br>
+
+            <button type="submit" class="submit_button">Ingresar</button>
+
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        </form>
+
+    </div>
+
+    
+</body>
+</html>
+
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoratge en Directe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estils.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1 class="page-title">Monitoratge en Directe</h1>
+        </div>
+
+        <ul class="nav-list">
+            <li><a href="{{url_for('index')}}">Inici</a></li>
+            <li><a href="{{url_for('galeria')}}">Galeria</a></li>
+            <li><a href="{{ url_for('logout') }}">Tancar sessió</a></li>
+        </ul>
+
+        <div class="live-monitoring-container">
+            <div class="graella-cameres">
+                {% for cam in camera %}
+                    <div class="targeta-camera">
+                        <h3>{{ cam.camera }}</h3>
+                        <p>IP: {{ cam.ip }} | Estat: 
+                            <span class="estat-{{ cam.estat_connexio | lower }}">
+                                {{ cam.estat_connexio }}
+                            </span>
+                        </p>
+                        
+                        <div class="video-wrapper">
+                            <img src="{{ url_for('video_feed', ip_cam=cam.ip) }}" 
+                                 alt="Directe de {{ cam.ip }}" 
+                                 style="width: 100%; border-radius: 8px;">
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No hi ha càmeres registrades al sistema.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
