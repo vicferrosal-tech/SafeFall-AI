@@ -1,6 +1,0 @@
-DB_USER = "con"
-DB_PASS = "patata"
-FLASK_SECRET = "eb865c7a007c40f1f4bf822cbb6176b461e76976236c464a0cd3b3bfff9f435d"
-MQTT_USER = "ad_sf"
-MQTT_PASS = "ad@s4fef4LL"
-API_KEY = "k3_2f@c0n_32pcam"
