@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Galeria Històrica de Deteccions</title>
+	<link rel="stylesheet" href="{{url_for('static', filename='estils.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+<body>
+	<div class="main-container">
+		<div class="header">
+			<h1 class="page-title">Galeria Històrica</h1>
+		</div>
+        <ul class="nav-list">
+            <li><a href="{{url_for('index')}}">Inici</a></li>
+            <li><a href="{{url_for('directe')}}">Càmeres en Directe</a></li>
+            <li><a href="{{ url_for('logout') }}">Tancar sessió</a></li>
+        </ul>
+
+    <div class="image-gallery">
+
+        {% if not grouped_detections %}
+            <p>No s'han trobat imatges a la carpeta.</p>
+        {% endif %}
+
+        {% for year_group in grouped_detections %}
+                
+        <h2 class="year-header">{{ year_group.year }}</h2>
+
+        {% for month_group in year_group.months %}
+        {% set month_name = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny', 'Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'][month_group.month - 1] %}
+        <div class="month-navigation-links mb-4">
+                        <h4>Navegació ràpida:</h4>
+                        <ul>
+                            {% for year_group in grouped_detections %}
+                                {% for month_group in year_group.months %}
+                                    {% set month_name = ['Gener', 'Febrer', 'Març', 'Abril', 'Maig', 'Juny','Juliol', 'Agost', 'Setembre', 'Octubre', 'Novembre', 'Desembre'][month_group.month - 1] %}
+                                        
+                                    {% set anchor_id = 'mes-' ~ year_group.year ~ '-' ~ month_group.month %}
+                                    
+                                    <li>
+                                        <a href="#{{ anchor_id }}">{{ month_name }} {{ year_group.year }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>                   
+            {% set anchor_id = 'mes-' ~ year_group.year ~ '-' ~ month_group.month %}
+            
+            <h3 class="month-header" id="{{ anchor_id }}">{{ month_name }} ({{ year_group.year }})</h3>        <div class="day-navigation-links mb-4">
+            <h4>Navegació ràpida (Dia):</h4>
+            <ul class="quick-nav-list">
+                {% for year_group in grouped_detections %}
+                    {% for month_group in year_group.months %}
+                        {% set month_name = [
+                            'Gen', 'Febr', 'Març', 'Abr', 'Maig', 'Juny', 
+                            'Jul', 'Ag', 'Set', 'Oct', 'Nov', 'Des'
+                        ][month_group.month - 1] %}
+                        
+                        {% for day_group in month_group.days %}
+                            
+                            {% set anchor_id = 'dia-' ~ day_group.date_str %} 
+                            
+                            <li>
+                                <a href="#{{ anchor_id }}" title="{{ month_name }} {{ year_group.year }}">
+                                    {{ day_group.day }}.{{ month_group.month }} 
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>            
+        {% for day_group in month_group.days %}
+
+        {% set anchor_id = 'dia-' ~ day_group.date_str %}
+
+        <div class="day-group card" id="{{ anchor_id }}"> 
+            <div class="card-header">
+                <strong>Dia {{ day_group.day }} ({{ day_group.date_str }})</strong> 
+                <span class="badge">({{ day_group.imatges | length }} Imatges)</span>
+            </div>
+                                    
+            <div class="card-body detections-row">                
+                {% for img_info in day_group.imatges[:15] %}
+                <div class="image-item">
+                                        
+                    <img src="{{ url_for('static', filename='imatges/' + img_info.ruta_imatge.split('/')[-1]) }}" alt="{{ img_info.ruta_imatge }}" width="200">
+
+                    <p class="image-info">
+                        Hora: <strong>{{ img_info.hora }}</strong>
+                    </p>
+                </div>
+            {% endfor %} 
+            {% if day_group.imatges | length > 15 %}
+                <p class="text-muted w-100 mt-2">
+                    Només es mostren les 15 imatges més recents.
+                </p>
+            {% endif %}
+        </div>
+    </div> {% endfor %} {% endfor %} {% endfor %} </div> </div>
+</body>
+</html>
